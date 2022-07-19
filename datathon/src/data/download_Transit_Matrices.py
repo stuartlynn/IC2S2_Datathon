@@ -1,6 +1,8 @@
 
 import pandas as pd
 import geopandas as gpd
+import os
+
 
 transit_urls = {
     'driving':'https://uchicago.box.com/shared/static/hkipez75z2p7zivtjdgsfzut4rhm6t6h.parquet',
@@ -16,18 +18,15 @@ def filter_matrices(city, data, tracts):
     
 
 def download_matrices():
-    chi_tracts = gpd.read_file("../data/processed/park_tract_join_CHICAGO.geojson")
+    chi_tracts = gpd.read_file(os.path.normpath(os.path.join(os.path.dirname(__file__),'../data/processed/park_tract_join_CHICAGO.geojson')))
     nyc_tracts = gpd.read_file("../data/processed/park_tract_join_NYC.geojson")
     for name, url in transit_urls.items():
         data = pd.read_parquet(url)
+        data = data.iloc[:,1:]
         chi_od = filter_matrices("CHICAGO", data, chi_tracts)
         nyc_od = filter_matrices("NYC", data, nyc_tracts)
-        print(chi_od.head())
-        print(chi_od.shape)
-        print(nyc_od.head())
-        print(nyc_od.shape)
-        chi_od.to_csv(f".../mobility/data/transit matrices/CHI_{name}.csv")
-        nyc_od.to_csv(f".../mobility/data/transit matrices/NYC_{name}.csv")
+        chi_od.to_csv(f".../mobility/data/transit matrices/CHI_{name}.csv",index=False)
+        nyc_od.to_csv(f".../mobility/data/transit matrices/NYC_{name}.csv",index=False)
 
 
 
