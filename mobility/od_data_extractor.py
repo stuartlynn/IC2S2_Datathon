@@ -1,13 +1,18 @@
 import pandas as pd
 from glob import glob
 
+def fix_geoid(geoid):
+    if len(geoid) == 11:
+        return geoid
+    else:
+        return '0' + geoid
 class DataExtractor:
     def __init__(self, data_path: str) -> None:
         self.data = pd.DataFrame([])
         self.df = pd.DataFrame([])
         self.data_path = data_path
         vals = pd.read_csv(f'{data_path}/TractID_List.csv', header=None, dtype={'0': str}).values
-        self.tract_ids = [str(value[0]) for value in vals]
+        self.tract_ids = [fix_geoid(str(value[0])) for value in vals]
         self.destination = ''
         self.destinations = []
         dates = []
