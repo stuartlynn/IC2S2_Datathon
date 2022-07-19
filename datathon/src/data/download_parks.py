@@ -1,7 +1,7 @@
 import geopandas as gpd 
 
 PARK_GEO_FILES ={
-    "NYC" : "https://data.cityofnewyork.us/api/geospatial/4j29-i5ry?method=export&format=GeoJSON",
+    "NYC" : "https://data.cityofnewyork.us/api/geospatial/enfh-gkve?method=export&format=GeoJSON",
     "CHICAGO" : "https://data.cityofchicago.org/api/geospatial/ej32-qgdr?method=export&format=GeoJSON" 
 }
 def download_parks():

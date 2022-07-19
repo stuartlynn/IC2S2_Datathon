@@ -6,6 +6,12 @@ GEOID_COL = {
   "NYC":"GEOID",
   "CHICAGO": "geoid10"
 }
+
+ID_COL = {
+  "NYC":"objectid",
+  "CHICAGO":"park_no"
+}
+    
 def calc_park_overlap_for_all_cities():
     for city in CITIES:
         park_tract_overlap(city)
@@ -13,7 +19,10 @@ def calc_park_overlap_for_all_cities():
 def park_tract_overlap(city):
     tracts = gpd.read_file(f"data/raw/tracts_{city}.geojson")
     tracts.rename(columns={GEOID_COL[city]: "tract_id"},inplace=True)
+                           
     parks = gpd.read_file(f"data/raw/parks_{city}.geojson")
+    parks.rename(columns={ID_COL[city]: "park_id"},inplace=True)
+
     join  = gpd.sjoin(parks, tracts, predicate='intersects', how="inner", lsuffix="park", rsuffix="tract")
     
     join_with_geom = pd.merge(join, tracts.rename(columns={'geometry':'tract_geometry'}), on='tract_id')
