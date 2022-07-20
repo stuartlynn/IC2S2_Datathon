@@ -19,15 +19,23 @@ nrow(prepandemic) + nrow(prevaccine) + nrow(postvaccine) + nrow(delta) + nrow(om
 all_origin <- chicagoparkvisits %>% 
   group_by(origin, date) %>% 
   summarise(total_trips = sum(trips))
-write.csv(all_origin, "data/all_by_week_chicago10parks.csv", row.names = F)
 
 library(ggplot2)
 library(hrbrthemes)
 library(viridis)
+library(hrbrthemes)
 
 all_origin %>% 
-  ggplot(aes(x = date, y = total_trips, group = origin, color = origin)) + 
-  geom_line() 
+  ggplot(aes(x = date, y = total_trips, 
+             group = origin, color = origin )) + 
+  geom_line() +
+  theme_ipsum()
+
+
+
+all_origin <- left_join(all_origin, population, by = c("origin" = "census_tract"))
+all_origin$total_trips_adj <- all_origin$total_trips/all_origin$population*10000
+write.csv(all_origin, "data/all_by_week_chicago10parks.csv", row.names = F)
 
 prepandemic_origin <- prepandemic %>% 
   group_by(origin) %>% 
