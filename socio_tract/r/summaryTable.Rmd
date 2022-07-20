@@ -1,0 +1,53 @@
+---
+title: "summaryTable"
+author: "Qinyun"
+date: '2022-07-20'
+output: word_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+```{r load-packages, include=FALSE}
+library(dplyr)
+library(magrittr)
+library(knitr)
+library(gtsummary)
+library(readr) 
+library(tidyverse)
+library(Hmisc)
+library(gtsummary)
+
+setwd("~/Documents/IC2S2_Datathon/socio_tract/data")
+data <- read.csv("allwithsociodemo_chicago10parks.csv")
+```
+system.file(package = "gtsummary") %>%
+  file.path("rmarkdown_example/gtsummary_rmarkdown_html.Rmd") %>%
+  file.edit()
+
+```{r}
+tbl_summary(
+  data,
+  by = top_totaladj,
+  include = c(3:27, 29:35, 50),
+  missing = "no",
+  digits = all_continuous() ~ 2,
+  label = list('childP' ~ "% children",
+               'Ov70P' ~ "% older than 70",
+               'IncomeBl10KP' ~ "% Income < 10K",
+               'Income50K200KP' ~ "% Income 50K-200K",
+               'IncomeOv200KP' ~ '% Income > 200K',
+               'ByCarP' ~ '% commute by car',
+               'CommuteOv20minP' ~ '% commute over 20 min',
+               'NHwhiteP' ~ "% non-Hispanic white",
+               'blackP' ~ "% Black or African American",
+               'AmIndP' ~ "% American Indian or Alaska Native",
+               'asianP' ~ "% Asian",
+               'hisP' ~ "% Hispanic")
+) %>% 
+  add_p() %>% 
+  modify_header(label = "**Variable**") %>% # update the column header
+  bold_labels() %>% 
+  as_flex_table()
+```
+

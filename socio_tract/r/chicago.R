@@ -10,11 +10,11 @@ chicago <- chicago %>%
          IncomeOv200KP = households_whose_annual_income_greater_than_200000_dollars/total_households*100,
          InLaborP = workforce_in_labor/total_workforce*100,
          ByCarP = commuting_by_car_or_truck_or_van/total_workforce*100,
-         ByCabMotorBicycle = commuting_by_taxicab_or_motorcycle_or_bicycle_or_other_means/total_workforce*100,
+         ByCabMotorBicycleP = commuting_by_taxicab_or_motorcycle_or_bicycle_or_other_means/total_workforce*100,
          CommuteOv20minP = (commuting_time_between_20_and_60_minutes + commuting_time_over_60_minutes)/total_workforce*100,
          NHwhiteP = non_hispanic_white/population*100,
          blackP = black_or_african_american/population*100,
-         AmInd = american_indian_and_alaska_native/population*100,
+         AmIndP = american_indian_and_alaska_native/population*100,
          asianP = asian/population*100,
          hisP = hispanic_or_latino/population*100) %>% 
   select(census_tract, ends_with("P"))
